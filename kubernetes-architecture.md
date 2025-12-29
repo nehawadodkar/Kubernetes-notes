@@ -98,3 +98,21 @@
 - Container runtime = runs containers  
 - kubelet = node agent on workers  
 - kubectl = CLI tool to interact with cluster
+
+graph TB
+    subgraph Master Node
+        API[Kube API Server]
+        ETCD[etcd Key-Value Store]
+        SCH[Scheduler]
+        CM[Controller Manager]
+    end
+
+    subgraph Worker Node
+        KUBE[Kubelet]
+        CR[Container Runtime (Docker)]
+        P1((Pods/Containers))
+    end
+
+    API --> KUBE
+    KUBE --> P1
+
