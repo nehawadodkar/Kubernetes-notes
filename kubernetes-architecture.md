@@ -1,46 +1,100 @@
-🧭 Kubernetes Basics — Notes
-📌 Why understand the basics?
+# Kubernetes Notes
 
-Before setting up a Kubernetes cluster, it’s important to know the core components and terminology, so that:
+## Core Concepts
+- Kubernetes orchestrates **containers** across multiple nodes
+- Helps maintain **availability** and **load sharing**
 
-common terms make sense
+---
 
-architecture is clear
+## Nodes
+- A **node** is a physical or virtual machine with Kubernetes installed
+- Also called **worker node** or **minion**
+- **Runs containers** deployed by Kubernetes
+- If a node fails, applications on it go down → need **multiple nodes**
 
-commands feel intuitive
+---
 
-troubleshooting becomes easier
+## Cluster
+- A **cluster** is a group of nodes
+- Benefits:
+  - High availability
+  - Load sharing
+  - Fault tolerance
 
-🧊 What is a Node?
+---
 
-A node is:
+## Master / Control Plane
+- Another node configured as **master**
+- Responsibilities:
+  - Watches over worker nodes
+  - Orchestrates container workloads
+  - Stores cluster information
+  - Schedules and manages containers when nodes fail
 
-a physical or virtual machine
+---
 
-where Kubernetes is installed
+## Kubernetes Components
 
-a worker machine
+### **API Server**
+- Front-end of Kubernetes
+- All tools (CLI, UI) communicate with it
 
-where containers actually run
+### **etcd**
+- Distributed, reliable **key-value store**
+- Stores all cluster data
+- Implements locks to avoid conflicts in multi-master setups
 
-Historical note:
+### **Scheduler**
+- Assigns newly created containers/pods to nodes
+- Distributes workload across nodes
 
-previously called minions
+### **Controllers**
+- Orchestration “brain”
+- Detect failures of nodes, containers, or endpoints
+- Brings up new containers when needed
 
-If a node fails, the applications running on it go down — so we need more than one node.
+### **Container Runtime**
+- Software to **run containers**
+- Examples:
+  - Docker (used in this course)
+  - Alternatives: Rocket, CRI-O
+- Runs containers on worker nodes
 
-🧩 What is a Kubernetes Cluster?
+### **kubelet**
+- Agent running on each **worker node**
+- Ensures containers are running as expected
+- Reports health information to master
 
-A cluster is:
+---
 
-a group of nodes working together
+## Master vs Worker Nodes
+- **Master node**:
+  - Runs **API Server**, **etcd**, **Scheduler**, **Controller Manager**
+  - Orchestrates cluster and stores state
+- **Worker node**:
+  - Runs **kubelet** and **container runtime**
+  - Hosts containers/pods
+  - Communicates with master for health and instructions
 
-Benefits:
+---
 
-high availability (if one fails, others keep running)
+## kubectl (Kubernetes CLI)
+- Used to **deploy and manage applications**
+- Used to **get cluster and node information**
+- Common commands:
+  - `kubectl run <app>` → deploy an application
+  - `kubectl cluster-info` → view cluster information
+  - `kubectl get nodes` → list all nodes
 
-load sharing
+---
 
-scalability
-
-🖼 Diagram — Simple Kubernetes Cluster
+## Key Takeaways
+- Node = machine running containers  
+- Cluster = group of nodes  
+- Master = manages cluster, orchestrates workloads  
+- etcd = stores cluster state  
+- Scheduler = assigns containers to nodes  
+- Controllers = maintain desired state  
+- Container runtime = runs containers  
+- kubelet = node agent on workers  
+- kubectl = CLI tool to interact with cluster
